@@ -33,8 +33,45 @@ jobs:
         env:
           # 如果需要，可以在这里添加环境变量
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
-      
-      # 第五步：上传运行日志（可选）
+
+      # 第五步：创建 GitHub Release 并上传 Word 报告
+      - name: Create Release and Upload Report
+        if: success()
+        run: |
+          # 生成版本标签（格式：v20260304）
+          VERSION_TAG="v$(date +'%Y%m%d')"
+
+          # 创建 Release
+          RELEASE_RESPONSE=$(curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/xueyifangbiu-svg/ai-news-bot/releases \
+            -d "{
+              \"tag_name\": \"$VERSION_TAG\",
+              \"name\": \"AI深度分析报告 - $(date +'%Y年%m月%d日')\",
+              \"body\": \"## 📄 AI深度分析报告\\n\\n**生成时间**: $(date +'%Y年%m月%d日 %H:%M:%S')\\n**报告内容**: 热点话题分析、重要资讯解读、数据可视化图表、趋势分析、行动建议\\n\\n---\\n\\n点击下方链接下载完整报告\",
+              \"draft\": false,
+              \"prerelease\": false
+            }")
+
+          # 获取 Release ID
+          RELEASE_ID=$(echo $RELEASE_RESPONSE | jq -r '.id')
+          echo "Release ID: $RELEASE_ID"
+
+          # 上传 Word 报告到 Release
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document" \
+            -H "Accept: application/vnd.github.v3+json" \
+            --data-binary @AI_深度分析报告.docx \
+            "https://uploads.github.com/repos/xueyifangbiu-svg/ai-news-bot/releases/$RELEASE_ID/assets?name=AI_深度分析报告_$(date +'%Y%m%d').docx"
+
+          # 生成公开下载链接
+          DOWNLOAD_URL="https://github.com/xueyifangbiu-svg/ai-news-bot/releases/download/$VERSION_TAG/AI_深度分析报告_$(date +'%Y%m%d').docx"
+          echo "DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
+          echo "Report download URL: $DOWNLOAD_URL"
+
+      # 第六步：上传运行日志（可选）
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
