@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser requests python-dateutil beautifulsoup4 lxml
+          pip install feedparser requests python-dateutil beautifulsoup4 lxml python-docx wordcloud matplotlib Pillow
       
       # 第四步：运行 AI 资讯机器人
       - name: Run AI News Bot
