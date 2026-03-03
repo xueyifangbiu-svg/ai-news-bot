@@ -201,7 +201,7 @@ class DeepAnalysisReport:
     
     def _analyze_single_news(self, news):
         """分析单条资讯"""
-        analysis = f"该资讯涉及{news.get('sub_category', news.get('category', 'AI')}领域，"
+        analysis = f"该资讯涉及{news.get('sub_category', 'AI')}领域，"
         
         # 基于标题和摘要生成分析
         title = news['title'].lower()
