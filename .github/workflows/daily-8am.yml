@@ -50,7 +50,7 @@ jobs:
 
           # 创建 Release
           RELEASE_RESPONSE=$(curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/xueyifangbiu-svg/ai-news-bot/releases \
             -d "{
@@ -88,7 +88,7 @@ jobs:
 
           # 上传 Word 报告到 Release
           UPLOAD_RESPONSE=$(curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.TOKEN }}" \
             -H "Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document" \
             -H "Accept: application/vnd.github.v3+json" \
             --data-binary @AI_深度分析报告.docx \
