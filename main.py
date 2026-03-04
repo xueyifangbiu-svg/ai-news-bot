@@ -261,7 +261,7 @@ def send_to_feishu(news_list, word_report_file=None):
             "tag": "div",
             "text": {
                 "tag": "lark_md",
-                "content": f"\n---\n\n📄 **深度分析报告已生成！**\n\n**报告内容：**\n• 🔥 热点话题分析\n• 📊 重要资讯解读\n• 📈 数据可视化图表\n• 💡 趋势分析与行动建议\n\n**📥 下载报告（3种方式）：**\n\n**方式1：GitHub Actions（推荐，最快）**\n1️⃣ 点击运行记录：[GitHub Actions 工作流](https://github.com/xueyifangbiu-svg/ai-news-bot/actions)\n2️⃣ 找到最新的运行记录（绿色✅）\n3️⃣ 滚动到底部「Artifacts」部分\n4️⃣ 下载「AI_深度分析报告.docx」\n\n**方式2：仓库文件**\n📂 访问仓库：[ai-news-bot](https://github.com/xueyifangbiu-svg/ai-news-bot)\n📂 进入「Actions runs」下载最新运行产物\n\n**方式3：直接链接（如果配置了GitHub Release）**\n🔗 下载链接：待配置\n\n💡 **提示：** 报告每天北京时间 8:00 自动生成，建议定期下载保存。"
+                "content": f"\n---\n\n📄 **深度分析报告已生成！**\n\n**报告内容：**\n• 🔥 热点话题分析\n• 📊 重要资讯解读\n• 📈 数据可视化图表\n• 💡 趋势分析与行动建议\n\n**📥 下载报告（2种方式）：**\n\n**方式1：GitHub Release（推荐，永久有效）**\n🔗 直接下载：[AI_深度分析报告.docx](https://github.com/xueyifangbiu-svg/ai-news-bot/releases/download/v20260304/AI_深度分析报告_20260304.docx)\n💡 提示：每天自动更新，链接格式为 https://github.com/xueyifangbiu-svg/ai-news-bot/releases/download/vYYYYMMDD/AI_深度分析报告_YYYYMMDD.docx\n\n**方式2：GitHub Actions（临时下载）**\n1️⃣ 点击运行记录：[GitHub Actions 工作流](https://github.com/xueyifangbiu-svg/ai-news-bot/actions)\n2️⃣ 找到最新的运行记录（绿色✅）\n3️⃣ 滚动到底部「Artifacts」部分\n4️⃣ 下载「AI_深度分析报告.docx」\n\n💡 **提示：** 报告每天北京时间 8:00 自动生成，建议定期下载保存。"
             }
         })
 
