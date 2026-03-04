@@ -39,16 +39,49 @@ jobs:
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
 
+      # 第五步：安装 jq 工具（用于解析 JSON 响应）
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
       # 第六步：创建 GitHub Release 并上传 Word 报告
       - name: Create Release and Upload Report
         if: success()
         run: |
+          # 安装 jq 工具（用于解析 JSON 响应）
+          sudo apt-get update && sudo apt-get install -y jq
+
           # 生成版本标签（格式：v20260304）
           VERSION_TAG="v$(date +'%Y%m%d')"
 
           echo "=== Creating Release with tag: $VERSION_TAG ==="
 
+          # 检查 Release 是否已存在
+          echo "=== Checking if release exists ==="
+          CHECK_RESPONSE=$(curl -s \
+            -H "Authorization: token ${{ secrets.TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/xueyifangbiu-svg/ai-news-bot/releases/tags/$VERSION_TAG)
+
+          RELEASE_ID=$(echo "$CHECK_RESPONSE" | jq -r '.id')
+          echo "=== Existing Release ID: $RELEASE_ID ==="
+
+          if [ "$RELEASE_ID" != "null" ] && [ -n "$RELEASE_ID" ]; then
+            echo "=== Release already exists, deleting it ==="
+            # 删除已存在的 Release
+            DELETE_RESPONSE=$(curl -s -X DELETE \
+              -H "Authorization: token ${{ secrets.TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/xueyifangbiu-svg/ai-news-bot/releases/$RELEASE_ID)
+            echo "=== Delete response: $DELETE_RESPONSE ==="
+            
+            # 等待一段时间，确保删除完成
+            sleep 3
+          fi
+
           # 创建 Release
+          echo "=== Creating new Release ==="
           RELEASE_RESPONSE=$(curl -s -X POST \
             -H "Authorization: token ${{ secrets.TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
